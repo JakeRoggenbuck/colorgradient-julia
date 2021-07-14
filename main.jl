@@ -1,10 +1,5 @@
-struct Point
-    x::Int
-    y::Int
-end
-
 # Find the slope of two point
-find_slope(p1, p2) = (p2.y - p1.y) / (p2.x - p1.x)
+find_slope(x1, y1, x2, y2) = (y2 - y1) / (x2 - x1)
 
 # Find the closest whole numbers on both sides of a x
 neighbors(x) = round(x), ceil(x)
@@ -15,10 +10,17 @@ function find_y(x, known_x)
     if round(x) == x
         return known_x[x]
     end
+
+    left_x, right_x = neighbors(x)
+
+    left_y = known_x[left_x]
+    right_y = known_x[right_x]
+
+    slope = find_slope(left_x, left_y, right_x, right_y)
+
+    return left_y + (slope * (x - left_x))
 end
 
-p1 = Point(2, 3)
-p2 = Point(5, 6)
-
-println(find_slope(p1, p2))
+println(find_slope(2, 3, 5, 6))
 println(neighbors(4.5))
+println(find_y(2, [3, 4, 5, 9]))
